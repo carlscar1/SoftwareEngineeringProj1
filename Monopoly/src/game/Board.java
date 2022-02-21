@@ -6,7 +6,7 @@ public class Board {
 	//BUYING AND SELLING rent and cost to buy 
 	public static void main(String[] args){
 	
-		BoardSpace[] spaces = new BoardSpace[40];
+	BoardSpace[] spaces = new BoardSpace[40];
 	
 	//fixME set ALL boolean owned to false at beginning of game
 	//and all ownername to null
@@ -209,12 +209,9 @@ public class Board {
 		}
 	}
 	
-	//fixME
-//	public boolean canBuyThisSquare() {
-//		if (spaces[squareNum].owned == false) {
-//			return true;
-//		}
-//	}
+	public boolean canBuyThisSquare(BoardSpace occupied) {
+		return occupied.getOwned(); 
+	}
 	
 	public boolean checkWin() {
 		//

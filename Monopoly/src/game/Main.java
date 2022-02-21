@@ -1,29 +1,76 @@
 package game;
 import java.util.Random;
-//import test.Player;
-	
-	//class Player {
-	//	String name;
-	//     int money = 750;
-	 //    int pos = 0;
-	  //   int doubleStreak = 0;
-	    // Boolean inJail = false;
-	//}
+import java.util.Arrays;
+import java.util.ArrayList;
+
 	
 	public class Main {
+		public void gameStart( ) {
+			Random rand = new Random();
+			resetAllOwnedSpaces();
+			boolean gameOver = false;
+			   
+			Player player1 = new Player();
+			Player player2 = new Player();
+			Player player3 = new Player();
+			Player player4 = new Player();
+			
+			Player[] players = new Player[4];
+			
+			players[0] = player1;
+			players[1] = player2;
+			players[2] = player3;
+			players[3] = player4; 
+			
+			player1.name = "Player 1";
+			player2.name = "Player 2";
+			player3.name = "Player 3";
+			player4.name = "Player 4";
+			
+			System.out.println("Welcome to Monopoly: Player 1!")
+		}
+		
+		public int diceRoll() {
+			// fixME add the dice roll functions!
+			
+		    int roll = rand.nextInt(6)+1;
+		    return roll;
+		}
+		
+		public int printRollTotal() {
+			int roll1 = diceRoll();
+			int roll2 = diceRoll(); 
+			System.out.println("Player rolled " + roll1 + " and " + roll2;
+			System.out.println("to get " + (roll1 + roll2));
+			
+			if (roll1 == roll2) {
+				System.out.println("You rolled DOUBLES!"); // fixME do more?
+				currentPlayer.addToDoubleStreak();
+			}
+		}
+		
+		
+		public void playerTurn(Player currentPlayer) {
+			System.out.println("\n It's " + currentPlayer.getName() + "'s turn!");
+			System.out.println("Money: " + currentPlayer.getMoney());
+			
+			if (currentPlayer.inJail == true) {
+				// fixMe fill!
+				System.out.println("Player is in jail!");
+			}
+			else {
+				// normal turn if player is NOT in jail
+				System.out.println("Player position: " + currentPlayer.getPosition());
+				
+				while (currentPlayer.getDoubleStreak() < 3) { // fixME is that it for the while loop?
+					// fixMe move!
+					int move = currentPlayer.pos() + // fixME NOT DONE
+				}
+			}
+		}
 		
 	  public static void main(String[] args){
-	   Random rand = new Random();
-	   
-	   Player player1 = new Player();
-	   Player player2 = new Player();
-	   Player player3 = new Player();
-	   Player player4 = new Player();
-	   Player[] players = new Player[4];
-	   players[0] = player1;
-	   players[1] = player2;
-	   players[2] = player3;
-	   players[3] = player4; 
+	  
 	   
 	   //player1.name = "test p1";
 	   //System.out.println(player1.name);
@@ -77,7 +124,7 @@ import java.util.Random;
 	   // 39 = 1
 	   // 40 = in jail
 	   
-	   Boolean doubles = false;
+	   //Boolean doubles = false;
 	   int laps = 0;
 	   Boolean move = true;
 	   

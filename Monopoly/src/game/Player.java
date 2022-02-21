@@ -33,14 +33,40 @@ public class Player {
 		return doubleStreak;
 	}
 	
+	public void addToDoubleStreak() {
+		doubleStreak++;
+	}
+	
+	public void addMoney(int priceOfProperty) {
+		this.money = money + (priceOfProperty);
+		//if the player is paying the money, just use a negative input instead
+	}
+	
+	public void payToPlayer(Player recipient, int amountOfMoney) {
+		recipient.addMoney(amountOfMoney);
+		//amount is negatively "added" to the player paying
+		addMoney(-amountOfMoney)
+	}
+	
 	public void buySpace(BoardSpace occupied) {
 		if (occupied.owned == false) {
 			namesOfProperties.add(occupied.name);
 			occupied.ownerName = getName();
+			addMoney(-occupied.costToBuy);
 		}
 		else {
 			// do something?
 		}
+	}
+	
+	public void printProperties() {
+		if (namesOfProperties.isEmpty()) {
+			System.out.println("You own no properties");
+		}
+	}
+	
+	public boolean doesPlayerOwn (BoardSpace property) {
+		return namesOfProperties.contains(property);
 	}
 	
 	public int payRent() {
@@ -49,6 +75,10 @@ public class Player {
 	
 	public boolean isBankrupt() {
 		//
+	}
+	
+	public boolean ownsColorGroup () {
+		// fixME not sure on input
 	}
 	
 	
