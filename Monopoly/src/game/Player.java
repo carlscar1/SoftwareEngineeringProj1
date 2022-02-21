@@ -10,10 +10,10 @@ public class Player {
 	Boolean inJail = false;
 	
 	//array list so it can be added to 
-	ArrayList <String> namesOfProperties;
+	ArrayList <BoardSpace> namesOfProperties;
 	
 	
-	public ArrayList <String> getNamesOfProperties(){
+	public ArrayList <BoardSpace> getNamesOfProperties(){
 		return namesOfProperties;
 	}
 	
@@ -39,9 +39,20 @@ public class Player {
 			occupied.ownerName = getName();
 		}
 		else {
-			// print something?
+			// do something?
 		}
 	}
+	
+	public int payRent() {
+		//		
+	}
+	
+	public boolean isBankrupt() {
+		//
+	}
+	
+	
+	
 	
 	
 }

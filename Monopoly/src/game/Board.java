@@ -216,4 +216,14 @@ public class Board {
 //		}
 //	}
 	
+	public boolean checkWin() {
+		//
+	}
+	
+	public void rollDice() {
+		
+	}
+	
+	
+	
 	}

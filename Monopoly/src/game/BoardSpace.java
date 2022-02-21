@@ -7,5 +7,5 @@ public class BoardSpace {
 	int rent;
 	String colorSet;
 	boolean owned;
-	String ownerName; //type string or player?
+	String ownerName;
 }
