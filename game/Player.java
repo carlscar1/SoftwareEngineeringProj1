@@ -11,6 +11,7 @@ public class Player {
 	boolean inJail = false;
 	int inJailCounter = 0;
 	boolean isMoving = true;
+	//BoardSpace occupied = 
 	
 	//array list so it can be added to 
 	ArrayList <BoardSpace> namesOfProperties;
@@ -81,7 +82,7 @@ public class Player {
 	
 	public void buySpace(BoardSpace occupied, Player currentPlayer) {
 		Scanner scan = new Scanner(System.in);
-		if (occupied.owned == false) {
+		if (occupied.getOwned() == false) {
 			
 		System.out.println("Player can buy this property for " + occupied.costToBuy + ".");
 		if (currentPlayer.getName().equals("player1")) { // only giving option to non-computer player

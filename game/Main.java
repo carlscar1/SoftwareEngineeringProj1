@@ -6,6 +6,7 @@ import java.util.ArrayList;
 	
 	public class Main {
 		static Random rand = new Random();
+		static Board gameBoard = new Board();
 		
 		public boolean checkWin(Player[] players) {
 			int totalPlayers = players.length;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 		}
 		
 		public static void gameStart() {
-			Board gameBoard = new Board();
+			//Board gameBoard = new Board();
 			//gameBoard.resetAllOwnedSpaces();
 			
 			// Player player1 = new Player();
@@ -71,7 +72,7 @@ import java.util.ArrayList;
 		}
 		
 		public static void playerTurn(Player currentPlayer) {
-			System.out.println("\n It's " + currentPlayer.getName() + "'s turn!");
+			System.out.println("\n----It's " + currentPlayer.getName() + "'s turn!----");
 			System.out.println("Money: " + currentPlayer.getMoney());
 			int rolled;
 			if (currentPlayer.inJail == true) {
@@ -115,6 +116,9 @@ import java.util.ArrayList;
 						currentPlayer.inJail = true;
 						currentPlayer.isMoving = false;
 						currentPlayer.pos = 10;
+					}
+					else if (gameBoard.canBuyInputInt(currentPlayer.pos)) {
+						currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.pos), currentPlayer);
 					}
 					else {
 						System.out.println("End of players move!");
