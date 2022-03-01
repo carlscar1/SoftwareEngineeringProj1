@@ -6,7 +6,7 @@ public class BoardSpace {
 	int costToBuy;
 	int rent;
 	String colorSet;
-	boolean owned;
+	boolean owned = false;
 	String ownerName;
 	Player owner = new Player();
 	
