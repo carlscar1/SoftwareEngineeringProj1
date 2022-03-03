@@ -7,8 +7,7 @@ import java.util.ArrayList;
 	public class Main {
 		static Random rand = new Random();
 		static Board gameBoard = new Board();
-		
-		public boolean checkWin(Player[] players) {
+		public static boolean checkWin(Player[] players) {
 			int totalPlayers = players.length;
 			int winCon = totalPlayers-1;
 			int bankruptPlayers = 0;
@@ -47,6 +46,7 @@ import java.util.ArrayList;
 			// player4.name = "Player 4";
 			
 			System.out.println("Welcome to Monopoly: Player 1!");
+			gameBoard.initBoard();
 		}
 		
 		public static int diceRoll() {
@@ -96,7 +96,7 @@ import java.util.ArrayList;
 				System.out.println("Player is in jail!");
 				
 			}
-			else {				
+			else {
 				while (/*currentPlayer.getDoubleStreak() < 3 && currentPlayer.getDoubleStreak() > 0*/ currentPlayer.isMoving == true) {
 					System.out.println("Player position: " + currentPlayer.getPosition());
 					rolled = printRollTotal(currentPlayer);
@@ -117,8 +117,9 @@ import java.util.ArrayList;
 						currentPlayer.isMoving = false;
 						currentPlayer.pos = 10;
 					}
-					else if (gameBoard.canBuyInputInt(currentPlayer.pos)) {
-						currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.pos), currentPlayer);
+					else if (gameBoard.canBuyThisSquare(currentPlayer.getPosition())) {
+						System.out.println(currentPlayer.getPosition());
+						//currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.getPosition()), currentPlayer);
 					}
 					else {
 						System.out.println("End of players move!");
@@ -149,16 +150,12 @@ import java.util.ArrayList;
 			player2.name = "Player 2";
 			player3.name = "Player 3";
 			player4.name = "Player 4";
-
-		  playerTurn(player1);
-		  playerTurn(player2);
-		  playerTurn(player3);
-		  playerTurn(player4);
-
-		  playerTurn(player1);
-		  playerTurn(player2);
-		  playerTurn(player3);
-		  playerTurn(player4);
+			while(!checkWin(players)) {
+				for(int i = 0; i < players.length; i++) {
+					if(!players[i].isBankrupt())
+						playerTurn(players[i]);
+				}
+			}
 	   }
 	}
 	
