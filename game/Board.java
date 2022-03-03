@@ -68,7 +68,7 @@ public class Board {
 		spaces[8].colorSet = "cyan";
 		spaces[8].setOwned(false);
 		
-		spaces[9].name = "Conneticut Avenue";
+		spaces[9].name = "Connecticut Avenue";
 		spaces[9].description = "";
 		spaces[9].costToBuy = 120;
 		spaces[9].rent = 8;
@@ -263,24 +263,28 @@ public class Board {
 		return spaces;
 	}
 
-	public static String getNameOfSpace(int numSpace) {
+	public String getNameOfSpace(int numSpace) {
 		return spaces[numSpace].name;
-	}
-	
+	}	
 	public void resetAllOwnedSpaces() {
 		for(int i=0; i < 40; i++) {
 			spaces[i].setOwned(false);
 			spaces[i].ownerName = "BANK";
 		}
 	}
+	public int payRent(Player currentPlayer) {
+		//currentPlayer.printProperties(currentPlayer.getProperties());
+		int cost = getBoard()[currentPlayer.getPosition()].getRent();
+		//System.out.println(getBoard()[currentPlayer.getPosition()].getOwner().getMoney());
+		currentPlayer.payToPlayer(getBoard()[currentPlayer.getPosition()].getOwner(), cost);
+		//System.out.println(getBoard()[currentPlayer.getPosition()].getOwner().getMoney());
+		return cost;
+	}
+
 	
 	public boolean canBuyThisSquare(int spaceNum) {
 		return getBoard()[spaceNum].getOwned();
 	}
-
-//	public boolean canBuyInputInt(int spaceNum) {
-//		return canBuyThisSquare(spaces[spaceNum]);
-//	}
 	
 	public BoardSpace getSpaceFromInt(int spaceNum) {
 		return spaces[spaceNum];

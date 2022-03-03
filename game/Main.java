@@ -58,9 +58,7 @@ import java.util.ArrayList;
 			int roll1 = diceRoll();
 			int roll2 = diceRoll(); 
 			int movement = roll1+roll2;
-			System.out.println("Player rolled " + roll1 + " and " + roll2);
-			System.out.println("to get " + (movement));
-			
+			System.out.println("Player rolled " + roll1 + " and " + roll2 + " to get " + (movement));
 			if (roll1 == roll2) {
 				System.out.println("You rolled DOUBLES!");
 				currentPlayer.addToDoubleStreak();
@@ -117,14 +115,21 @@ import java.util.ArrayList;
 						currentPlayer.isMoving = false;
 						currentPlayer.pos = 10;
 					}
-					else if (gameBoard.canBuyThisSquare(currentPlayer.getPosition())) {
-						System.out.println(currentPlayer.getPosition());
-						//currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.getPosition()), currentPlayer);
+					else if (!gameBoard.canBuyThisSquare(currentPlayer.getPosition())) {
+						System.out.println("Current Player landed on: " + gameBoard.getBoard()[currentPlayer.getPosition()].getOwnerName());
+						//System.out.println(currentPlayer.getPosition());
+						currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.getPosition()), currentPlayer);
+						//currentPlayer.printProperties(currentPlayer.getProperties());
+						System.out.println("New status of square: " + !gameBoard.canBuyThisSquare(currentPlayer.getPosition()));
 					}
 					else {
+						gameBoard.payRent(currentPlayer);
+						System.out.println("Current Player landed on a space owned by: " + gameBoard.getBoard()[currentPlayer.getPosition()].getOwnerName());
+						//System.out.println("Current Player landed on: " + gameBoard.getBoard()[currentPlayer.getPosition()].getName());
+						System.out.println("");
+					}
 						System.out.println("End of players move!");
 						currentPlayer.isMoving = false;
-					}
 				}
 			}
 			if(currentPlayer.inJail == false) {
@@ -155,6 +160,10 @@ import java.util.ArrayList;
 					if(!players[i].isBankrupt())
 						playerTurn(players[i]);
 				}
+			}
+			for(int i = 0; i < players.length; i++) {
+				if(!players[i].isBankrupt())
+					System.out.println(players[i].getName() + " Won!");
 			}
 	   }
 	}

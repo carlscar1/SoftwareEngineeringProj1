@@ -16,8 +16,8 @@ public class PlayerTest {
     @Test
 	public void testSetName() {
         Player playerOne = new Player();
-        assertTrue(playerOne.getName() == NULL);
-        playerOne.setName(nameOfPlayer);
+        assertTrue(playerOne.getName() == null);
+        playerOne.setName("nameOfPlayer");
         assertTrue(playerOne.getName().equals("nameOfPlayer"));
     }
 

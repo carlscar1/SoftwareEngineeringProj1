@@ -14,11 +14,22 @@ public class Player {
 	//BoardSpace occupied = 
 	
 	//array list so it can be added to 
-	ArrayList <BoardSpace> namesOfProperties;
+	ArrayList <BoardSpace> namesOfProperties = new ArrayList();
 	
 	
-	public ArrayList <BoardSpace> getNamesOfProperties(){
+	public ArrayList <BoardSpace> getProperties(){
 		return namesOfProperties;
+	}
+	
+	public void printProperties(ArrayList <BoardSpace> properties) {
+		if (properties.isEmpty()) {
+			System.out.println("You own no properties");
+		}
+		else {
+			for(int i = 0; i < properties.size(); i++) {
+				System.out.println(properties.get(i).name);
+			}
+		}
 	}
 	
 	public String getName() {
@@ -68,6 +79,9 @@ public class Player {
 	public void resetJailCounter() {
 		inJailCounter = 0;
 	}
+	public void addToProperties(BoardSpace property) {
+		this.namesOfProperties.add(property);
+	}
 	
 	public void addMoney(int priceOfProperty) {
 		money += priceOfProperty;
@@ -77,55 +91,39 @@ public class Player {
 	public void payToPlayer(Player recipient, int amountOfMoney) {
 		recipient.addMoney(amountOfMoney);
 		//amount is negatively "added" to the player paying
-		addMoney(-amountOfMoney);
+		this.addMoney(-amountOfMoney);
 	}
 	
 	public void buySpace(BoardSpace occupied, Player currentPlayer) {
-		Scanner scan = new Scanner(System.in);
+		//Scanner scan = new Scanner(System.in);
 		if (occupied.getOwned() == false) {
 			
-		System.out.println("Player can buy this property for " + occupied.costToBuy + ".");
-		if (currentPlayer.getName().equals("player1")) { // only giving option to non-computer player
-			System.out.println("Does player want to buy this space?");
-			System.out.println("Type: 'y' for yes or 'n' for no");
-			String yesOrNo = scan.next();
+		//System.out.println("Player can buy this property for " + occupied.costToBuy + ".");
+		//if (currentPlayer.getName().equals("player1")) { // only giving option to non-computer player
+			//System.out.println("Does player want to buy this space?");
+			//System.out.println("Type: 'y' for yes or 'n' for no");
+			//String yesOrNo = scan.next();
 	
-			if (yesOrNo.equalsIgnoreCase("y")) {
-				namesOfProperties.add(occupied);
+			//if (yesOrNo.equalsIgnoreCase("y")) {
+				currentPlayer.addToProperties(occupied);
+				System.out.println("Added " + occupied.getName());
 				occupied.setOwnerName(getName());
-				addMoney(-occupied.costToBuy);
-			}
-			else {
-				System.out.println("Space is not bought.");		
-			}
-		}
+				occupied.setOwned(true);
+				currentPlayer.addMoney(-occupied.costToBuy);
+			//}
+			//else {
+				//System.out.println("Space is not bought.");		
+			//}
+		//}
 		}
 		else {
 			System.out.println("Space is owned by " + occupied.getOwnerName());
 		}
 	}
 	
-	public void printProperties() {
-		if (namesOfProperties.isEmpty()) {
-			System.out.println("You own no properties");
-		}
-		else {
-			for(int i = 0; i < namesOfProperties.size(); i++) {
-				System.out.println(namesOfProperties.get(i).name);
-			}
-		}
-	}
-	
 	public boolean doesPlayerOwn (BoardSpace property) {
 		return namesOfProperties.contains(property);
 	}
-	
-	public int payRent(Player currentPlayer) {
-		int cost = Board.spaces[currentPlayer.pos].rent;
-		payToPlayer(Board.spaces[currentPlayer.pos].owner, cost);
-		return cost;
-	}
-
 	public boolean isBankrupt() {
 		if(money <= 0) {
 			return true;
@@ -147,8 +145,8 @@ public class Player {
 		else {
 			maxTemp = 3;
 		}
-		for(int i = 0; i < getNamesOfProperties().size(); i++) {
-			if((getNamesOfProperties().get(i)).getColorSet() == color) {
+		for(int i = 0; i < getProperties().size(); i++) {
+			if((getProperties().get(i)).getColorSet() == color) {
 				tempColor++;
 			}
 		}
