@@ -3,17 +3,21 @@ package game;
 import java.util.Scanner;
 
 public class Board {
-
 	
-	//BUYING AND SELLING rent and cost to buy 
-	//public static void main(String[] args){
-	
+	/** Create an array of BoardSpaces called spaces with 40 BoardSpaces */
 	static BoardSpace[] spaces = new BoardSpace[40];
+
+	/*****************************************************************
+	Initializes the board inside an array of BoardSpaces. First, creates
+	each space as a new BoardSpace within a loop. Then for each space,
+	set the name, description costToBuy, rent, colorSet, and owned. 
+	Set the ownerName to "Bank" if the space cannot be bought. 
+    *****************************************************************/
 	public void initBoard() {
 		for(int i = 0; i < 40; i++) {
 			spaces[i] = new BoardSpace();
 		}
-		//and all ownername to null
+		
 		spaces[0].name = "Go";
 		//spaces[0].description = "";
 		//spaces[0].costToBuy = NULL; // cannot buy
@@ -259,19 +263,46 @@ public class Board {
 		spaces[39].colorSet = "blue";
 		spaces[39].setOwned(false);
 	}
+
+	/*****************************************************************
+	Returns the array list of spaces that contain information on 
+	each BoardSpace
+	@return spaces which is the array list of the BoardSpaces
+    *****************************************************************/
 	public BoardSpace[] getBoard() {
 		return spaces;
 	}
 
+	/*****************************************************************
+	Returns the name of the space at the position that is input as
+	the input parameter. 
+	@param numSpace the integer number of the space on the board
+	@return the name of the space based on the input numSpace
+    *****************************************************************/
 	public String getNameOfSpace(int numSpace) {
 		return spaces[numSpace].name;
 	}	
+
+	/*****************************************************************
+	Resets all BoardSpaces through the spaces array list back to 
+	not being owned anymore. This is done by setting owned to false
+	for all BoardSpaces on the board, as well as setting ownerName to 
+	"BANK."
+    *****************************************************************/
 	public void resetAllOwnedSpaces() {
 		for(int i=0; i < 40; i++) {
 			spaces[i].setOwned(false);
 			spaces[i].ownerName = "BANK";
 		}
 	}
+
+	/*****************************************************************
+	Pays rent from currentPlayer (input parameter) to the player
+	that owns the spots that the currentPlayer is on (their position).
+	@param currentPlayer is the player that is playing their turn that
+		must pay rent on the space they are on. 
+	@return cost of the rent that the Player pays
+    *****************************************************************/
 	public int payRent(Player currentPlayer) {
 		//currentPlayer.printProperties(currentPlayer.getProperties());
 		int cost = getBoard()[currentPlayer.getPosition()].getRent();
@@ -281,11 +312,33 @@ public class Board {
 		return cost;
 	}
 
-	
+	/*****************************************************************
+	Returns the boolean of whether or not the space of the input 
+	parameter integer can be bought or if it is already owned (would
+	return false). 
+	@param spaceNum is the integer of the position of the space on the
+		board that needs to be checked if it can be bought.
+	@return boolean of if the space can be bought (true if can be 
+		bought)
+    *****************************************************************/
 	public boolean canBuyThisSquare(int spaceNum) {
-		return getBoard()[spaceNum].getOwned();
+		//return getBoard()[spaceNum].getOwned();
+			try {
+				return getSpaceFromInt(spaceNum).getOwned();
+			}
+			catch(NullPointerException e) {
+				System.out.println("NullPointerException thrown!");
+			}
+		return false;
 	}
 	
+	/*****************************************************************
+	Returns the BoardSpace at the location of the integer input
+	parameter. 
+	@param spaceNum the integer number that the space is at on the board
+	@return the BoardSpace from the array list at the location of 
+		the input integer spaceNum
+    *****************************************************************/
 	public BoardSpace getSpaceFromInt(int spaceNum) {
 		return spaces[spaceNum];
 	}
