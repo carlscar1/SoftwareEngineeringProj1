@@ -21,7 +21,7 @@ public class BoardSpace {
     boolean owned = false;
 
     /** holds the ownerName of the BoardSpace */
-    String ownerName;
+    String ownerName = "";
 
     /** create a new Player called owner */
     Player owner = new Player();

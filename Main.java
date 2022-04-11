@@ -327,12 +327,13 @@ public class Main {
                 else if (gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwned() == false) {
                     //System.out.println(currentPlayer.getPosition());
                     currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.getPosition()), currentPlayer);
-
                 }
-                else {
+                else if (gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName() != "BANK" || gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName() != gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName()){
+                	System.out.println("Current Player fucked up!");
+                	currentPlayer.payToPlayer(gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwner(), gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getRent());
+                }
                     System.out.println("End of players move!");
                     currentPlayer.isMoving = false;
-                }
             }
         }
         if(currentPlayer.inJail == false) {
@@ -349,6 +350,7 @@ public class Main {
 
         Player[] players = new Player[4];
         int turnCount = 0;
+        boolean infGame = false;
 
         players[0] = player1;
         players[1] = player2;
@@ -366,7 +368,12 @@ public class Main {
      		players[i].setPlayerType("Player");
      		System.out.println(players[i].getName() + " is now a Player!");
      	}
-        while(!checkWin(players) && turnCount <= 500) {
+     	System.out.println();
+     	System.out.println("Maximum turns until game automatically ends? Enter 0 for infinite game length.");
+     	int totalCount = scan.nextInt();
+     	if(totalCount == 0)
+     		infGame = true;
+        while(!checkWin(players) && turnCount <= totalCount || !checkWin(players) && infGame) {
             for(int i = 0; i < players.length; i++) {
                 if(!players[i].isBankrupt()) {
                     playerTurn(players[i]);

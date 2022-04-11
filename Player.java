@@ -178,9 +178,10 @@ public class Player {
      @param amountOfMoney is integer amount of money being paid to recipient
      *****************************************************************/
     public void payToPlayer(Player recipient, int amountOfMoney) {
-        recipient.addMoney(amountOfMoney);
+    	System.out.println(this.getName() + " paid " + recipient.getName() + " " + amountOfMoney + "!");
+        recipient.changeMoney(amountOfMoney);
         //amount is negatively "added" to the player paying
-        addMoney(-amountOfMoney);
+        this.changeMoney(-amountOfMoney);
     }
     
     public void addProperty(BoardSpace occupied) {
@@ -222,6 +223,8 @@ public class Player {
                     currentPlayer.addProperty(occupied);
                     occupied.setOwnerName(currentPlayer.getName());
                     currentPlayer.changeMoney(-occupied.getCostToBuy());
+                    occupied.setOwned(true);
+                    occupied.setOwner(currentPlayer);
                 }
                 else {
                     System.out.println("Space is not bought.");
@@ -232,7 +235,10 @@ public class Player {
             	System.out.println();
                 currentPlayer.addProperty(occupied);
                 occupied.setOwnerName(currentPlayer.getName());
+                System.out.println(occupied.getOwnerName());
                 currentPlayer.changeMoney(-occupied.getCostToBuy());
+                occupied.setOwner(currentPlayer);
+                occupied.setOwned(true);
             }
         }
         else {
