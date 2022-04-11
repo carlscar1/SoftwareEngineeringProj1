@@ -329,7 +329,7 @@ public class Main {
                     currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.getPosition()), currentPlayer);
                 }
                 else if (gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName() != "BANK" || gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName() != gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName()){
-                	System.out.println("Current Player fucked up!");
+                	System.out.println("Player landed on another player's square!");
                 	currentPlayer.payToPlayer(gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwner(), gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getRent());
                 }
                     System.out.println("End of players move!");
