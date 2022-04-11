@@ -97,6 +97,148 @@ public class Main {
         }
         return movement;
     }
+    
+    public static void chanceCard(Player currentPlayer) {
+    	Random rad = new Random();
+        int Chance = rad.nextInt(10);
+        String Chance_Text;
+        int moneyChange = 0;
+        int newPosition = 0;
+        switch (Chance) {
+            case 0:
+                Chance_Text = "Get Out of Jail Free";
+                break;
+            case 1:
+                Chance_Text = "GO TO JAIL! GO DIRECTLY TO JAIL! DO NOT PASS GO! DO NOT COLLECT 200!";
+                break;
+            case 2:
+                Chance_Text = "Advance to Illinois Avenue. If you pass Go, collect $200";
+                if (currentPlayer.pos > 24) {
+                    moneyChange = 200;
+                    newPosition = 24;
+                } else {
+                    newPosition = 24;
+                }
+                break;
+            case 3:
+                Chance_Text = "Advance to St. Charles Place. If you pass Go, collect $200";
+                if (currentPlayer.pos > 11) {
+                    moneyChange = 200;
+                    newPosition = 11;
+                }
+                else {
+                    newPosition = 11;
+                }
+                break;
+            case 4:
+                Chance_Text = "Go Back 3 Spaces";
+                if(currentPlayer.pos > 2) {
+                    newPosition = currentPlayer.pos - 3;
+                }
+                else{
+                    newPosition = 40;
+                }
+                break;
+            case 5:
+                Chance_Text = "Advance to Go Collect $200";
+                moneyChange = 200;
+                newPosition = 0;
+                break;
+            case 6:
+                Chance_Text = "Take a trip to Reading Railroad. If you pass Go, collect $200";
+                if (currentPlayer.pos > 5) {
+                    moneyChange = 200;
+                    newPosition = 5;
+                } else {
+                    newPosition = 5;
+                }
+
+                break;
+            case 7:
+                Chance_Text = "Make general repairs on all your property. Pay $175";
+                moneyChange = -175;
+                break;
+            case 8:
+                Chance_Text = "You have lost in a beauty contest. Lose $300";
+                moneyChange = -300;
+                break;
+            case 9:
+                Chance_Text = "Your building loan matures. Collect $150";
+                moneyChange = 150;
+                break;
+            default:
+                Chance_Text = "Advance to Go Collect $200";
+                moneyChange = 200;
+                newPosition = 0;
+                break;
+
+        }
+        System.out.println(Chance_Text);
+        currentPlayer.changeMoney(moneyChange);
+        currentPlayer.setPosition(newPosition);
+    }
+    
+    public static void communityChest(Player currentPlayer) {
+
+        Random rad = new Random();
+        int CC = rad.nextInt(10);
+        int moneyChange = 0;
+        int freeJail = 0;
+        int newPosition = 0;
+        String CC_Text;
+        switch (CC) {
+            case 0:
+                CC_Text = "Get Out of Jail Free";
+                freeJail = 1;
+                break;
+            case 1:
+                CC_Text = "GO TO JAIL! GO DIRECTLY TO JAIL! DO NOT PASS GO! DO NOT COLLECT 200!";
+                newPosition = 10;
+                break;
+            case 2:
+                CC_Text = "Bank error in your favor. Collect $200";
+                moneyChange = 200;
+                break;
+            case 3:
+                CC_Text = "Doctor's fee. Pay $50";
+                moneyChange = -50;
+
+                break;
+            case 4:
+                CC_Text = "From sale of stock you get $50";
+                moneyChange = 50;
+                break;
+            case 5:
+                CC_Text = "Advance to Go Collect $200";
+                moneyChange = 200;
+                break;
+            case 6:
+                CC_Text = "Pay hospital fees of $100";
+                moneyChange = -100;
+                break;
+            case 7:
+                CC_Text = "Pay school fees of $50";
+                moneyChange = 50;
+                break;
+            case 8:
+                CC_Text = "You have won second prize in a beauty contest. Collect $10";
+                moneyChange = 10;
+                break;
+            case 9:
+                CC_Text = "Make general repairs on all your property. Pay $375";
+                moneyChange = -375;
+                break;
+            default:
+                CC_Text = "Advance to Go Collect $200";
+                moneyChange = 200;
+                break;
+
+        }
+    System.out.println(CC_Text);
+    currentPlayer.changeMoney(moneyChange);
+    currentPlayer.setPosition(newPosition);
+    currentPlayer.changeJailFree(freeJail);
+    }
 
     /*****************************************************************
      Each player turn will go through these options and print out
@@ -134,7 +276,7 @@ public class Main {
                 System.out.println("Player did not roll doubles!");
                 currentPlayer.addToJailCounter();
                 if(currentPlayer.getJailCounter() == 3) {
-                    System.out.println("Player did not roll doubles in time, charged �50.");
+                    System.out.println("Player did not roll doubles in time, charged $50.");
                     currentPlayer.setMoney(currentPlayer.getMoney()-50);
                     currentPlayer.isMoving = true;
                     currentPlayer.inJail = false;
@@ -150,173 +292,37 @@ public class Main {
                 rolled = printRollTotal(currentPlayer);
                 if(currentPlayer.doubleStreak > 0) {
                     currentPlayer.isMoving = true;
+                    //System.out.println("Hit A");
                 }
                 else {
                     currentPlayer.isMoving = false;
+                    //System.out.println("Hit B");
                 }
                 if(currentPlayer.pos + rolled > 40) {
+                	//System.out.println("Hit C");
                     System.out.println("Player crosses go! Collects $200!");
                     currentPlayer.money += 200;
                 }
                 currentPlayer.pos = (currentPlayer.pos + rolled) % 40; // %40 to make sure within range of board
                     if(currentPlayer.pos == 2 || currentPlayer.pos == 17 || currentPlayer.pos == 33) {
-
-                            Random rad = new Random();
-                            int CC = rad.nextInt(10);
-                            int gained = 0;
-                            int lossed = 0;
-                            int freeJail = 0;
-                            int newPosition = 0;
-                            String CC_Text;
-                            switch (CC) {
-                                case 0:
-                                    CC_Text = "Get Out of Jail Free";
-                                    freeJail = 1;
-                                    break;
-                                case 1:
-                                    CC_Text = "GO TO JAIL! GO DIRECTLY TO JAIL! DO NOT PASS GO! DO NOT COLLECT 200!";
-                                    newPosition = 10;
-                                    break;
-                                case 2:
-                                    CC_Text = "Bank error in your favor. Collect $200";
-                                    gained = 200;
-                                    break;
-                                case 3:
-                                    CC_Text = "Doctor’s fee. Pay $50";
-                                    lossed = 50;
-
-                                    break;
-                                case 4:
-                                    CC_Text = "From sale of stock you get $50";
-                                    gained = 50;
-                                    break;
-                                case 5:
-                                    CC_Text = "Advance to Go Collect $200";
-                                    gained = 200;
-                                    lossed = 0;
-                                    break;
-                                case 6:
-                                    CC_Text = "Pay hospital fees of $100";
-                                    lossed = 100;
-                                    break;
-                                case 7:
-                                    CC_Text = "Pay school fees of $50";
-                                    gained = 50;
-                                    break;
-                                case 8:
-                                    CC_Text = "You have won second prize in a beauty contest. Collect $10";
-                                    gained = 10;
-                                    break;
-                                case 9:
-                                    CC_Text = "Make general repairs on all your property. Pay $375";
-                                    lossed = 375;
-                                    break;
-                                default:
-                                    CC_Text = "Advance to Go Collect $200";
-                                    gained = 200;
-                                    lossed = 0;
-                                    break;
-
-                            }
-                        System.out.println(CC_Text);
-                        currentPlayer.money += gained;
-                        currentPlayer.money -= lossed;
-                        currentPlayer.pos = newPosition;
-                        currentPlayer.outOfJailFree += freeJail;
-                        }
-
+                    	//System.out.println("Hit D");
+                    		communityChest(currentPlayer);
+                    }
 
                     if(currentPlayer.pos == 7 || currentPlayer.pos == 22 || currentPlayer.pos == 36){
-
-                            Random rad = new Random();
-                            int Chance = rad.nextInt(10);
-                            String Chance_Text;
-                            int gained = 0;
-                            int lossed = 0;
-                            int newPosition = 0;
-                            switch (Chance) {
-                                case 0:
-                                    Chance_Text = "Get Out of Jail Free";
-                                    break;
-                                case 1:
-                                    Chance_Text = "GO TO JAIL! GO DIRECTLY TO JAIL! DO NOT PASS GO! DO NOT COLLECT 200!";
-                                    break;
-                                case 2:
-                                    Chance_Text = "Advance to Illinois Avenue. If you pass Go, collect $200";
-                                    if (currentPlayer.pos > 24) {
-                                        gained = 200;
-                                        newPosition = 24;
-                                    } else {
-                                        newPosition = 24;
-                                    }
-                                    break;
-                                case 3:
-                                    Chance_Text = "Advance to St. Charles Place. If you pass Go, collect $200";
-                                    if (currentPlayer.pos > 11) {
-                                        gained = 200;
-                                        newPosition = 11;
-                                    }
-                                    else {
-                                        newPosition = 11;
-                                    }
-                                    break;
-                                case 4:
-                                    Chance_Text = "Go Back 3 Spaces";
-                                    if(currentPlayer.pos > 2) {
-                                        newPosition = currentPlayer.pos - 3;
-                                    }
-                                    else{
-                                        newPosition = 40;
-                                    }
-                                    break;
-                                case 5:
-                                    Chance_Text = "Advance to Go Collect $200";
-                                    gained = 200;
-                                    newPosition = 0;
-                                    break;
-                                case 6:
-                                    Chance_Text = "Take a trip to Reading Railroad. If you pass Go, collect $200";
-                                    if (currentPlayer.pos > 5) {
-                                        gained = 200;
-                                        newPosition = 5;
-                                    } else {
-                                        newPosition = 5;
-                                    }
-
-                                    break;
-                                case 7:
-                                    Chance_Text = "Make general repairs on all your property. Pay $175";
-                                    lossed = 175;
-                                    break;
-                                case 8:
-                                    Chance_Text = "You have lost in a beauty contest. Lose $300";
-                                    lossed = 300;
-                                    break;
-                                case 9:
-                                    Chance_Text = "Your building loan matures. Collect $150";
-                                    gained = 150;
-                                    break;
-                                default:
-                                    Chance_Text = "Advance to Go Collect $200";
-                                    gained = 200;
-                                    newPosition = 0;
-                                    break;
-
-                            }
-                            System.out.println(Chance_Text);
-                            currentPlayer.money += gained;
-                            currentPlayer.money -= lossed;
-                            currentPlayer.pos = newPosition;
+                    	//System.out.println("Hit E");
+                            chanceCard(currentPlayer);
                         }
 
                 if(currentPlayer.getDoubleStreak() > 2) {
+                	//System.out.println("Hit F");
                     System.out.println("Player sped to jail!");
                     currentPlayer.inJail = true;
                     currentPlayer.isMoving = false;
                     currentPlayer.pos = 10;
                 }
-                else if (gameBoard.canBuyThisSquare(currentPlayer.getPosition())) {
-                    System.out.println(currentPlayer.getPosition());
+                else if (gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwned() == false) {
+                    //System.out.println(currentPlayer.getPosition());
                     currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.getPosition()), currentPlayer);
 
                 }
@@ -346,11 +352,14 @@ public class Main {
         players[2] = player3;
         players[3] = player4;
 
-        player1.name = "Player 1";
+        player1.name = "player1";
         player2.name = "Player 2";
         player3.name = "Player 3";
         player4.name = "Player 4";
-        while(!checkWin(players) && turnCount <= 5) {
+        player1.setPlayerType("Player");
+        System.out.println(player1.getIsPlayer());
+        
+        while(!checkWin(players) && turnCount <= 500) {
             for(int i = 0; i < players.length; i++) {
                 if(!players[i].isBankrupt()) {
                     playerTurn(players[i]);

@@ -26,9 +26,11 @@ public class Player {
     boolean isMoving = true;
 
     /** array list holds the names of properties that a player owns */
-    ArrayList <BoardSpace> namesOfProperties;
+    ArrayList <BoardSpace> namesOfProperties = new ArrayList();
 
     int outOfJailFree = 0;
+    
+    boolean isPlayer = false;
 
     /*****************************************************************
      Returns the names of properties that the player owns.
@@ -100,6 +102,10 @@ public class Player {
     public void setMoney(int money) {
         this.money = money;
     }
+    
+    public void changeMoney(int money) {
+    	this.money+=money;
+    }
 
     /*****************************************************************
      Sets the Player's position to the input parameter position.
@@ -107,6 +113,22 @@ public class Player {
      *****************************************************************/
     public void setPosition(int pos) {
         this.pos = pos;
+    }
+    
+    
+    public void setPlayerType(String playerType) {
+    	if(playerType == "Player")
+    		this.isPlayer = true;
+    	else
+    		this.isPlayer = false;
+    }
+    
+    public boolean getIsPlayer() {
+    	return isPlayer;
+    }
+    
+    public void changeJailFree(int cardsGained) {
+    	this.outOfJailFree += cardsGained;
     }
 
     /*****************************************************************
@@ -160,6 +182,10 @@ public class Player {
         //amount is negatively "added" to the player paying
         addMoney(-amountOfMoney);
     }
+    
+    public void addProperty(BoardSpace occupied) {
+    	this.namesOfProperties.add(occupied);
+    }
 
     /*****************************************************************
      Buys space if it is not already owned. Gives player option to buy
@@ -173,22 +199,35 @@ public class Player {
      *****************************************************************/
     public void buySpace(BoardSpace occupied, Player currentPlayer) {
         Scanner scan = new Scanner(System.in);
+        System.out.println("Post Scan Call");
+        System.out.println(occupied.getOwned());
+        System.out.println(occupied.getOwnerName());
         if (occupied.getOwned() == false) {
-
-            System.out.println("Player can buy this property for " + occupied.costToBuy + ".");
-            if (currentPlayer.getName().equals("player1")) { // only giving option to non-computer player
+            System.out.println("Player can buy this property for " + occupied.getCostToBuy() + ".");
+            if (currentPlayer.getIsPlayer()) { // only giving option to non-computer player
+            	System.out.println("We are looking at a space and I am a player");
+            	System.out.println();
+            	System.out.println();
                 System.out.println("Does player want to buy this space?");
                 System.out.println("Type: 'y' for yes or 'n' for no");
                 String yesOrNo = scan.next();
-
-                if (yesOrNo.equalsIgnoreCase("y")) {
-                    namesOfProperties.add(occupied);
-                    occupied.setOwnerName(getName());
-                    addMoney(-occupied.costToBuy);
+                System.out.println(yesOrNo);
+                String tempYes = "y";
+                if(yesOrNo.equalsIgnoreCase(tempYes)) {
+                	System.out.println("Space bought for $" + occupied.getCostToBuy() + " by " + currentPlayer.getName() + "!");
+                    currentPlayer.addProperty(occupied);
+                    occupied.setOwnerName(currentPlayer.getName());
+                    currentPlayer.changeMoney(-occupied.getCostToBuy());
                 }
                 else {
                     System.out.println("Space is not bought.");
                 }
+            }
+            else {
+            	System.out.println("Space bought for $" + occupied.getCostToBuy() + " by " + currentPlayer.getName() + "!");
+                currentPlayer.addProperty(occupied);
+                occupied.setOwnerName(currentPlayer.getName());
+                currentPlayer.changeMoney(-occupied.getCostToBuy());
             }
         }
         else {
