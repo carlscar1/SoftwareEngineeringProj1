@@ -199,22 +199,26 @@ public class Player {
      *****************************************************************/
     public void buySpace(BoardSpace occupied, Player currentPlayer) {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Post Scan Call");
-        System.out.println(occupied.getOwned());
-        System.out.println(occupied.getOwnerName());
+        //System.out.println("Post Scan Call");
+        //System.out.println(occupied.getOwned());
+        //System.out.println(occupied.getOwnerName());
         if (occupied.getOwned() == false) {
-            System.out.println("Player can buy this property for " + occupied.getCostToBuy() + ".");
-            if (currentPlayer.getIsPlayer()) { // only giving option to non-computer player
-            	System.out.println("We are looking at a space and I am a player");
-            	System.out.println();
+            System.out.println("Player can buy this property for $" + occupied.getCostToBuy() + ".");
+            if(currentPlayer.getMoney() < occupied.getCostToBuy()) {
+            	System.out.println("This space is too expensive!");
+            }
+            else if (currentPlayer.getIsPlayer()) { // only giving option to non-computer player
+            	//System.out.println("We are looking at a space and I am a player");
+            	//System.out.println();
             	System.out.println();
                 System.out.println("Does player want to buy this space?");
                 System.out.println("Type: 'y' for yes or 'n' for no");
                 String yesOrNo = scan.next();
-                System.out.println(yesOrNo);
+                //System.out.println(yesOrNo);
                 String tempYes = "y";
                 if(yesOrNo.equalsIgnoreCase(tempYes)) {
                 	System.out.println("Space bought for $" + occupied.getCostToBuy() + " by " + currentPlayer.getName() + "!");
+                	System.out.println();
                     currentPlayer.addProperty(occupied);
                     occupied.setOwnerName(currentPlayer.getName());
                     currentPlayer.changeMoney(-occupied.getCostToBuy());
@@ -225,6 +229,7 @@ public class Player {
             }
             else {
             	System.out.println("Space bought for $" + occupied.getCostToBuy() + " by " + currentPlayer.getName() + "!");
+            	System.out.println();
                 currentPlayer.addProperty(occupied);
                 occupied.setOwnerName(currentPlayer.getName());
                 currentPlayer.changeMoney(-occupied.getCostToBuy());

@@ -1,5 +1,6 @@
 package game;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Arrays;
 import java.util.ArrayList;
 
@@ -85,11 +86,12 @@ public class Main {
         int roll1 = diceRoll();
         int roll2 = diceRoll();
         int movement = roll1+roll2;
-        System.out.println("Player rolled " + roll1 + " and " + roll2);
-        System.out.println("to get " + (movement));
+        System.out.println("Player rolled " + roll1 + " and " + roll2 + " to get " + (movement));
 
         if (roll1 == roll2) {
+        	System.out.println();
             System.out.println("You rolled DOUBLES!");
+            System.out.println();
             currentPlayer.addToDoubleStreak();
         }
         else {
@@ -106,7 +108,7 @@ public class Main {
         int newPosition = 0;
         switch (Chance) {
             case 0:
-                Chance_Text = "Get Out of Jail Free";
+                Chance_Text = "Gain 1 Get Out of Jail Free Card!";
                 break;
             case 1:
                 Chance_Text = "GO TO JAIL! GO DIRECTLY TO JAIL! DO NOT PASS GO! DO NOT COLLECT 200!";
@@ -188,7 +190,7 @@ public class Main {
         String CC_Text;
         switch (CC) {
             case 0:
-                CC_Text = "Get Out of Jail Free";
+                CC_Text = "Gain 1 Get Out of Jail Free Card!";
                 freeJail = 1;
                 break;
             case 1:
@@ -267,6 +269,7 @@ public class Main {
                 currentPlayer.outOfJailFree -= 1;
             }
             else if(currentPlayer.doubleStreak > 0) {
+            	System.out.println("Is this ever even hit lol");
                 currentPlayer.isMoving = true;
                 System.out.println("Player rolled doubles!");
                 currentPlayer.resetJailCounter();
@@ -352,13 +355,17 @@ public class Main {
         players[2] = player3;
         players[3] = player4;
 
-        player1.name = "player1";
+        player1.name = "Player 1";
         player2.name = "Player 2";
         player3.name = "Player 3";
         player4.name = "Player 4";
-        player1.setPlayerType("Player");
-        System.out.println(player1.getIsPlayer());
-        
+        System.out.println("How many players? Up to 4 total players. Enter 0 for only computers.");
+        Scanner scan = new Scanner(System.in);
+        int numOfPlayers = scan.nextInt();
+     	for(int i = 0; i < numOfPlayers; i++) {
+     		players[i].setPlayerType("Player");
+     		System.out.println(players[i].getName() + " is now a Player!");
+     	}
         while(!checkWin(players) && turnCount <= 500) {
             for(int i = 0; i < players.length; i++) {
                 if(!players[i].isBankrupt()) {
