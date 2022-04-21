@@ -286,7 +286,7 @@ public class Main {
     	area.replaceSelection("");
     	area.append("Current Player Statistics: \n");
     	area.append("Name: " + currentPlayer.getName() + "\n");
-    	area.append("Position: " + gameBoard.getNameOfSpace(currentPlayer.getPosition()+rolled) + "\n");
+    	area.append("Position: " + gameBoard.getNameOfSpace((currentPlayer.getPosition()+rolled)%40) + "\n");
     	area.append("Money: " + currentPlayer.getMoney() + "\n");
 
         if (currentPlayer.inJail == true) {
