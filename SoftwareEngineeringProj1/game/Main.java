@@ -264,7 +264,6 @@ public class Main {
                 currentPlayer.outOfJailFree -= 1;
             }
             else if(currentPlayer.doubleStreak > 0) {
-            	System.out.println("Is this ever even hit lol");
                 currentPlayer.isMoving = true;
                 System.out.println("Player rolled doubles!");
                 currentPlayer.resetJailCounter();
@@ -292,15 +291,18 @@ public class Main {
                     currentPlayer.isMoving = true;
                     //System.out.println("Hit A");
                 }
+                
                 else {
                     currentPlayer.isMoving = false;
                     //System.out.println("Hit B");
                 }
+                
                 if(currentPlayer.pos + rolled > 40) {
                 	//System.out.println("Hit C");
                     System.out.println("Player crosses go! Collects $200!");
                     currentPlayer.money += 200;
                 }
+                
                 currentPlayer.pos = (currentPlayer.pos + rolled) % 40; // %40 to make sure within range of board
                     if(currentPlayer.pos == 2 || currentPlayer.pos == 17 || currentPlayer.pos == 33) {
                     	//System.out.println("Hit D");
@@ -319,14 +321,85 @@ public class Main {
                     currentPlayer.isMoving = false;
                     currentPlayer.pos = 10;
                 }
+                
+                //Player hit Income Tax
+                else if (currentPlayer.getPosition() == 4) {
+                	System.out.println("Player landed on Income Tax! Would you like to pay $200 or 10%? Say '200' for $200 or '10' for 10%.");
+                	Scanner scan = new Scanner(System.in);
+                	int tempLoop = 1;
+                	int tempChoice = 0;
+                	while(tempLoop == 1) {
+                    	if(currentPlayer.getIsPlayer()) {
+                		tempChoice = scan.nextInt();
+                    	}
+                    	else {
+                    		tempChoice = 200;
+                    	}
+                		if(tempChoice == 200) {
+                			currentPlayer.changeMoney(-200);
+                			tempLoop = 0;
+                		}
+                		else if (tempChoice == 10) {
+                			currentPlayer.changeMoney(-(currentPlayer.getMoney()/10));
+                			tempLoop = 0;
+                		}
+                		if(tempLoop != 0) {
+                			System.out.println("Incorrect input, '200' to pay $200, '10' to pay 10%.");
+                		}
+                		else
+                			System.out.println("Player charged accordingly!");
+                	}
+                }
+                
+                //Player hit Luxury Tax
+                else if (currentPlayer.getPosition() == 38) {
+                	System.out.println("Player landed on Luxury Tax! Player charged $100");
+                	currentPlayer.changeMoney(-75);
+                }
+                	
                 else if (gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwned() == false) {
                     //System.out.println(currentPlayer.getPosition());
                     currentPlayer.buySpace(gameBoard.getSpaceFromInt(currentPlayer.getPosition()), currentPlayer);
                 }
+                
                 else if (gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName() != "BANK" || gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName() != gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwnerName()){
                 	System.out.println("Player landed on another player's square!");
-                	currentPlayer.payToPlayer(gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwner(), gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getRent());
+                	 //Player hit Railroad
+                    if (currentPlayer.getPosition() == 5 || currentPlayer.getPosition() == 15 || currentPlayer.getPosition() == 25 || currentPlayer.getPosition() == 35) {
+                    	int tempCost = 0;
+                    	int railroadNum = gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwner().amountOfColor("railroad");
+                    	if(railroadNum == 1) {
+                    		tempCost = 25;
+                    	}
+                    	else if (railroadNum == 2)  {
+                    		tempCost = 50;
+                    	}
+                    	else if (railroadNum == 3) {
+                    		tempCost = 100;
+                    	}
+                    	else if (railroadNum == 4) {
+                    		tempCost = 200;
+                    	}
+                    	currentPlayer.payToPlayer(gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwner(), tempCost);
+                    }
+                    
+                    //Player hit Electric Company
+                    else if (currentPlayer.getPosition() == 12 || currentPlayer.getPosition() == 28) {
+                    	int tempCost = 0;
+                    	int utilityNum = gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwner().amountOfColor("utilities");
+                    	if(utilityNum == 1) {
+                    		tempCost = rolled*4;
+                    	}
+                    	if(utilityNum == 2) {
+                    		tempCost = rolled*10;
+                    	}
+                    	currentPlayer.payToPlayer(gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwner(), tempCost);
+                    }
+                    
+                    else
+                    	currentPlayer.payToPlayer(gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getOwner(), gameBoard.getSpaceFromInt(currentPlayer.getPosition()).getRent());
                 }
+                
                     System.out.println("End of players move!");
                     currentPlayer.isMoving = false;
             }

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class BoardGUI {
     public static void main(String[] args) throws IOException {
 
-        File file = new File("src/BoardImage.png");
+        File file = new File("src/ImageOfBoard.png");
         BufferedImage bufferedImage = ImageIO.read(file);
         
         ImageIcon imageIcon = new ImageIcon(bufferedImage);

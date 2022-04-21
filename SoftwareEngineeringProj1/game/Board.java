@@ -51,6 +51,7 @@ public class Board {
 
         spaces[5].name = "Reading Railroad";
         spaces[5].description = "";
+        spaces[5].costToBuy = 200;
         spaces[5].setOwned(false);
         spaces[5].colorSet = "railroad";
 
@@ -94,6 +95,7 @@ public class Board {
 
         spaces[12].name = "Electric Company";
         spaces[12].description = "";
+        spaces[12].costToBuy = 150;
         spaces[12].setOwned(false);
         spaces[12].colorSet = "utilities";
 
@@ -113,6 +115,7 @@ public class Board {
 
         spaces[15].name = "Pennsylvania Railroad";
         spaces[15].description = "";
+        spaces[15].costToBuy = 200;
         spaces[15].setOwned(false);
         spaces[15].colorSet = "railroad";
 
@@ -144,6 +147,7 @@ public class Board {
 
         spaces[20].name = "Free Parking";
         spaces[20].description = "";
+        spaces[20].costToBuy = 200;
         spaces[20].setOwned(true);
         spaces[20].ownerName = "BANK";
 
@@ -175,6 +179,7 @@ public class Board {
 
         spaces[25].name = "B. & O. Railroad";
         spaces[25].description = "";
+        spaces[25].costToBuy = 200;
         spaces[25].setOwned(false);
         spaces[25].colorSet = "railroad";
 
@@ -194,6 +199,7 @@ public class Board {
 
         spaces[28].name = "Water Works";
         spaces[28].description = "";
+        spaces[28].costToBuy = 150;
         spaces[28].setOwned(false);
         spaces[28].colorSet = "utilities";
 
@@ -237,6 +243,7 @@ public class Board {
 
         spaces[35].name = "Short Line";
         spaces[35].description = "";
+        spaces[35].costToBuy = 200;
         spaces[35].setOwned(false);
         spaces[35].colorSet = "railroad";
 
