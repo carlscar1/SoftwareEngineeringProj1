@@ -1,6 +1,15 @@
 package game;
+import java.awt.FlowLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 
 public class Main {
@@ -409,7 +418,8 @@ public class Main {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException{
+    	runGui();
         gameStart();
         Player player1 = new Player();
         Player player2 = new Player();
@@ -453,5 +463,26 @@ public class Main {
         System.out.println("===========================");
         System.out.println("End of Game!");
         System.out.println("===========================");
+    }
+
+	private static void runGui() throws IOException {
+		// TODO Auto-generated method stub
+
+        File file = new File("src/ImageOfBoard.png");
+        BufferedImage bufferedImage = ImageIO.read(file);
+        
+        ImageIcon imageIcon = new ImageIcon(bufferedImage);
+        JFrame jFrame = new JFrame();
+
+        jFrame.setLayout(new FlowLayout());
+        
+        jFrame.setSize(835, 845);
+        JLabel jLabel = new JLabel();
+
+        jLabel.setIcon(imageIcon);
+        jFrame.add(jLabel);
+        jFrame.setVisible(true);
+
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
