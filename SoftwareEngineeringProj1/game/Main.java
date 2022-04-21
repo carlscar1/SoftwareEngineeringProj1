@@ -1,4 +1,5 @@
 package game;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,6 +11,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 
 public class Main {
@@ -19,6 +22,8 @@ public class Main {
 
     /** create a new Board called gameBoard */
     static Board gameBoard = new Board();
+    
+    static JTextArea area = new JTextArea();
 
     /*****************************************************************
      Returns the boolean if a Player has won the game. Checks the
@@ -43,6 +48,17 @@ public class Main {
             return false;
         }
     }
+     public static Player outputWinner(Player[] players) {
+    	 int maxMoney = 0;
+    	 Player currentWinner = new Player();
+    	 for(int i = 0; i < players.length; i++) {
+             if(players[i].getMoney() > maxMoney) {
+                 maxMoney = players[i].getMoney();
+                 currentWinner = players[i];
+             }
+         }
+    	 return currentWinner;
+     }
 
     /*****************************************************************
      Starts the game with a welcome message.
@@ -262,10 +278,16 @@ public class Main {
      @param currentPlayer is the Player who's turn it is
      *****************************************************************/
     public static void playerTurn(Player currentPlayer) {
-
         System.out.println("\n----It's " + currentPlayer.getName() + "'s turn!----");
         System.out.println("Money: " + currentPlayer.getMoney());
         int rolled;
+        rolled = printRollTotal(currentPlayer);
+    	area.selectAll();
+    	area.replaceSelection("");
+    	area.append("Current Player Statistics: \n");
+    	area.append("Name: " + currentPlayer.getName() + "\n");
+    	area.append("Position: " + gameBoard.getNameOfSpace(currentPlayer.getPosition()+rolled) + "\n");
+    	area.append("Money: " + currentPlayer.getMoney() + "\n");
 
         if (currentPlayer.inJail == true) {
             if(currentPlayer.outOfJailFree > 0){
@@ -295,7 +317,6 @@ public class Main {
         else {
             while (/*currentPlayer.getDoubleStreak() < 3 && currentPlayer.getDoubleStreak() > 0*/ currentPlayer.isMoving == true) {
                 System.out.println("Player position: " + currentPlayer.getPosition());
-                rolled = printRollTotal(currentPlayer);
                 if(currentPlayer.doubleStreak > 0) {
                     currentPlayer.isMoving = true;
                     //System.out.println("Hit A");
@@ -333,17 +354,11 @@ public class Main {
                 
                 //Player hit Income Tax
                 else if (currentPlayer.getPosition() == 4) {
-                	System.out.println("Player landed on Income Tax! Would you like to pay $200 or 10%? Say '200' for $200 or '10' for 10%.");
-                	Scanner scan = new Scanner(System.in);
-                	int tempLoop = 1;
                 	int tempChoice = 0;
+                	if(currentPlayer.getIsPlayer())
+                		tempChoice = Integer.parseInt(JOptionPane.showInputDialog(null,"Player landed on Income Tax! Would you like to pay $200 or 10%? Say '200' for $200 or '10' for 10%. You currently have $" + currentPlayer.getMoney()));
+                	int tempLoop = 1;
                 	while(tempLoop == 1) {
-                    	if(currentPlayer.getIsPlayer()) {
-                		tempChoice = scan.nextInt();
-                    	}
-                    	else {
-                    		tempChoice = 200;
-                    	}
                 		if(tempChoice == 200) {
                 			currentPlayer.changeMoney(-200);
                 			tempLoop = 0;
@@ -352,11 +367,7 @@ public class Main {
                 			currentPlayer.changeMoney(-(currentPlayer.getMoney()/10));
                 			tempLoop = 0;
                 		}
-                		if(tempLoop != 0) {
-                			System.out.println("Incorrect input, '200' to pay $200, '10' to pay 10%.");
-                		}
-                		else
-                			System.out.println("Player charged accordingly!");
+                		System.out.println("Player charged accordingly!");
                 	}
                 }
                 
@@ -420,6 +431,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException{
     	runGui();
+    	//final JOptionPane outPut= new JOptionPane();
+    	//JOptionPane.showOptionDialog("The only way to close this dialog is by pressing one of the following buttons. Do you understand?", "No", "Yes", );
+    	//int testing = Integer.parseInt(JOptionPane.showInputDialog(null, "What is going on?"));
+    	//System.out.println(testing+3);
         gameStart();
         Player player1 = new Player();
         Player player2 = new Player();
@@ -439,16 +454,13 @@ public class Main {
         player2.name = "Player 2";
         player3.name = "Player 3";
         player4.name = "Player 4";
-        System.out.println("How many players? Up to 4 total players. Enter 0 for only computers.");
-        Scanner scan = new Scanner(System.in);
-        int numOfPlayers = scan.nextInt();
+        int numOfPlayers = Integer.parseInt(JOptionPane.showInputDialog(null,"How many players? Up to 4 total players. Enter 0 for only computers."));
      	for(int i = 0; i < numOfPlayers; i++) {
      		players[i].setPlayerType("Player");
      		System.out.println(players[i].getName() + " is now a Player!");
      	}
      	System.out.println();
-     	System.out.println("Maximum turns until game automatically ends? Enter 0 for infinite game length.");
-     	int totalCount = scan.nextInt();
+     	int totalCount = Integer.parseInt(JOptionPane.showInputDialog(null, "Maximum turns until game automatically ends? Enter 0 for infinite game length."));
      	if(totalCount == 0)
      		infGame = true;
         while(!checkWin(players) && turnCount <= totalCount || !checkWin(players) && infGame) {
@@ -462,6 +474,7 @@ public class Main {
         System.out.println("");
         System.out.println("===========================");
         System.out.println("End of Game!");
+        System.out.println(outputWinner(players).getName() + " won!");
         System.out.println("===========================");
     }
 
@@ -473,16 +486,22 @@ public class Main {
         
         ImageIcon imageIcon = new ImageIcon(bufferedImage);
         JFrame jFrame = new JFrame();
-
-        jFrame.setLayout(new FlowLayout());
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        jFrame.setSize(835, 845);
+        jFrame.setLayout(new FlowLayout());
+        //835, 845
+        jFrame.setSize(1000, 1000);
+        
         JLabel jLabel = new JLabel();
-
+        jFrame.add(area);
+        area.append("Current Player Statistics\n");
+        //
+        //area.selectAll();
+        //area.replaceSelection("");
+        //
         jLabel.setIcon(imageIcon);
         jFrame.add(jLabel);
         jFrame.setVisible(true);
-
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      
     }
 }

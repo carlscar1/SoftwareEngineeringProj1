@@ -2,6 +2,8 @@ package game;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class Player {
 
     /** holds the string name of each Player */
@@ -237,16 +239,13 @@ public class Player {
         Scanner scan = new Scanner(System.in);
         if (occupied.getOwned() == false) {
             System.out.println("Player can buy this property for $" + occupied.getCostToBuy() + ".");
-            if(currentPlayer.getMoney() < occupied.getCostToBuy()) {
+            if(currentPlayer.getMoney() <= occupied.getCostToBuy()) {
             	System.out.println("This space is too expensive!");
             }
             else if (currentPlayer.getIsPlayer()) { // only giving option to non-computer player
             	//System.out.println("We are looking at a space and I am a player");
             	//System.out.println();
-            	System.out.println();
-                System.out.println("Does player want to buy this space?");
-                System.out.println("Type: 'y' for yes or 'n' for no");
-                String yesOrNo = scan.next();
+                String yesOrNo = JOptionPane.showInputDialog(null,"Would you like to buy this space? Type 'y' for Yes or 'n' for no. You currently have $" + currentPlayer.getMoney());
                 //System.out.println(yesOrNo);
                 String tempYes = "y";
                 if(yesOrNo.equalsIgnoreCase(tempYes)) {
