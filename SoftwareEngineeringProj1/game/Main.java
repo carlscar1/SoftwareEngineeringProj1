@@ -363,6 +363,7 @@ public class Main {
                 			currentPlayer.changeMoney(-200);
                 			tempLoop = 0;
                 		}
+                		
                 		else if (tempChoice == 10) {
                 			currentPlayer.changeMoney(-(currentPlayer.getMoney()/10));
                 			tempLoop = 0;
